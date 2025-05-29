@@ -20,8 +20,9 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["*"])
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
-static_file_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
-app = Flask(__name__, static_folder=static_file_dir) 
+static_file_dir = os.path.join(
+    os.path.abspath(os.path.dirname(__file__)), '..')
+app = Flask(__name__, static_folder=static_file_dir)
 app.url_map.strict_slashes = False
 
 # database condiguration
@@ -37,8 +38,9 @@ MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
 bcrypt_instance = Bcrypt(app)
-app.extensions['flask-bcrypt'] = bcrypt_instance 
-print("DEBUG: app.extensions después de inicializar Bcrypt:", app.extensions) # Esta línea se mantiene para depurar
+app.extensions['flask-bcrypt'] = bcrypt_instance
+print("DEBUG: app.extensions después de inicializar Bcrypt:",
+      app.extensions)  # Esta línea se mantiene para depurar
 
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 jwt = JWTManager(app)
@@ -69,6 +71,8 @@ def sitemap():
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
+
+
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):

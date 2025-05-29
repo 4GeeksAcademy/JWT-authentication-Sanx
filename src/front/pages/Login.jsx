@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx"; 
-import { useNavigate } from "react-router-dom"; // Para redirigir
+import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { store, actions } = useGlobalReducer();
-    const navigate = useNavigate(); // Hook para la navegación programática
+    const navigate = useNavigate();
     const [error, setError] = useState(null);
-    
+
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Evita que la página se recargue
+        e.preventDefault();
         console.log("Intentando iniciar sesión con:", email, password);
         setError(null);
 
         try {
-            // Esta es la UNICA llamada fetch para el login.
+
             const resp = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/login", {
                 method: "POST",
                 headers: {
@@ -32,10 +32,9 @@ export const Login = () => {
                 return;
             }
 
-            actions.setToken(data.access_token); // Guarda el token en el store y sessionStorage
+            actions.setToken(data.access_token);
             console.log("Login exitoso, token:", data.access_token);
-            navigate("/private"); // Redirige a la página privada
-
+            navigate("/private");
         } catch (error) {
             console.error("Error de red al iniciar sesión:", error);
             setError("Error de conexión al servidor.");
