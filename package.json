@@ -5,6 +5,7 @@
 	},
 	"version": "1.0.1",
 	"description": "",
+	"proxy": "http://localhost:3001",
 	"main": "index.js",
 	"scripts": {
 		"dev": "vite",
